@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import { site, links } from '../config/site';
+---
+
+<BaseLayout title="About" description={`Why ${site.company} exists, and who is behind it.`}>
+  <Hero
+    label="About"
+    title="Most of the job is detective work."
+    subtitle="Something in the funnel does not add up. The work is finding out why, proving it, and fixing it so it stays fixed."
+  />
+
+  <Section label="The story" narrow>
+    <div class="prose">
+      <!-- Placeholder copy: owner to replace with their own story. -->
+      <p>
+        {site.company} started from a pattern that kept repeating. A marketing team would ask why a
+        campaign looked like it underperformed, or why lead counts in the CRM did not match the form
+        tool. The answer was almost never the campaign. It was a tag firing twice, a hidden field that
+        stopped populating after a site update, or a form that showed a thank-you message while the CRM
+        received nothing.
+      </p>
+      <p>
+        Finding those problems means following the evidence: reading network requests, comparing
+        timestamps across systems, submitting test leads and tracing where they go. It is closer to an
+        investigation than to a report.
+      </p>
+      <p>
+        That is the work {site.company} does, for clients directly through audits and fixes, and at scale
+        through {site.product}, which captures the evidence most tools throw away.
+      </p>
+    </div>
+  </Section>
+
+  <Section tone="tint" label="Point of view" title="Funnel clarity comes before optimization.">
+    <div class="pov">
+      <div>
+        <h3>Measure what happened</h3>
+        <p>Before deciding what to change, know what actually occurred. Most teams are optimizing against data with gaps in it.</p>
+      </div>
+      <div>
+        <h3>Count the people who left</h3>
+        <p>Converters are only part of the story. The visitors who dropped off are where the leaks are.</p>
+      </div>
+      <div>
+        <h3>Be honest about the data</h3>
+        <p>Attribution is a model, not a fact. Good reporting says what it knows, what it assumes, and where it is unsure.</p>
+      </div>
+    </div>
+  </Section>
+
+  <Section narrow>
+    <div class="end">
+      <p>If your funnel has a number nobody trusts, that is a good place to start.</p>
+      <div class="actions">
+        <Button href={links.bookAudit}>Book an audit</Button>
+        <Button href="/labs" variant="secondary">Read {site.labs}</Button>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style lang="scss">
+  .prose p {
+    font-size: 1.1875rem;
+    line-height: 1.7;
+    color: $gray-700;
+  }
+
+  .pov {
+    display: grid;
+    gap: $space-6;
+
+    @include md {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    > div {
+      border-top: 2px solid $navy;
+      padding-top: $space-4;
+    }
+
+    p {
+      color: $gray-700;
+      margin: 0;
+    }
+  }
+
+  .end p {
+    font-size: 1.375rem;
+    letter-spacing: -0.01em;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-3;
+  }
+</style>

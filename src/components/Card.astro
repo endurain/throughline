@@ -1,0 +1,86 @@
+---
+interface Props {
+  label?: string;
+  title: string;
+  href?: string;
+  cta?: string;
+  tone?: 'salt' | 'navy';
+}
+
+const { label, title, href, cta, tone = 'salt' } = Astro.props;
+---
+
+<article class:list={['card', tone]}>
+  {label && <p class="label">{label}</p>}
+  <h3>{title}</h3>
+  <div class="body"><slot /></div>
+  {
+    href && cta && (
+      <a class="link" href={href}>
+        {cta} <span aria-hidden="true">&rarr;</span>
+      </a>
+    )
+  }
+</article>
+
+<style lang="scss">
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: $border;
+    border-radius: $radius;
+    padding: $space-6;
+    height: 100%;
+  }
+
+  .navy {
+    background: $navy;
+    color: $on-navy;
+    border-color: $navy;
+
+    .label {
+      color: rgba($on-navy, 0.6);
+    }
+    .body {
+      color: rgba($on-navy, 0.8);
+    }
+    .link {
+      color: $on-navy;
+    }
+  }
+
+  .label {
+    margin-bottom: $space-3;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  .body {
+    color: $gray-700;
+    flex: 1;
+
+    :global(ul) {
+      padding-left: 1.1em;
+      margin: 0 0 $space-4;
+    }
+    :global(li) {
+      margin-bottom: $space-1;
+    }
+  }
+
+  .link {
+    margin-top: $space-4;
+    font-weight: 600;
+    text-decoration: none;
+    color: $ink;
+    box-shadow: inset 0 -2px 0 $orange;
+    align-self: flex-start;
+
+    &:hover {
+      box-shadow: inset 0 -1.2em 0 rgba($orange, 0.15);
+    }
+  }
+</style>

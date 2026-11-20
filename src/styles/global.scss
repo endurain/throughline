@@ -1,0 +1,112 @@
+// Global base styles. Tokens are injected automatically.
+
+:root {
+  --salt: #{$salt};
+  --navy: #{$navy};
+  --navy-deep: #{$navy-deep};
+  --orange: #{$orange};
+  --ink: #{$ink};
+  --muted: #{$gray-600};
+  --border: #{$gray-200};
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: $salt;
+  color: $ink;
+  font-family: $font-sans;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 650;
+  margin: 0 0 $space-4;
+}
+
+h1 {
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  letter-spacing: -0.03em;
+}
+h2 {
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+}
+h3 {
+  font-size: 1.25rem;
+}
+
+p {
+  margin: 0 0 $space-4;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+code,
+kbd,
+pre,
+.mono {
+  font-family: $font-mono;
+}
+
+code {
+  font-size: 0.9em;
+  background: $gray-50;
+  border: 1px solid $gray-100;
+  padding: 0.1em 0.35em;
+  border-radius: $radius;
+}
+
+.label {
+  @include label;
+  color: $gray-600;
+}
+
+.container {
+  width: 100%;
+  max-width: $max-width;
+  margin: 0 auto;
+  padding: 0 $gutter;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 2px solid $orange;
+  outline-offset: 2px;
+}
+
+::selection {
+  background: rgba($orange, 0.2);
+}

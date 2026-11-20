@@ -1,0 +1,74 @@
+---
+interface Props {
+  id?: string;
+  label?: string;
+  title?: string;
+  intro?: string;
+  tone?: 'salt' | 'navy' | 'tint';
+  narrow?: boolean;
+}
+
+const { id, label, title, intro, tone = 'salt', narrow = false } = Astro.props;
+---
+
+<section id={id} class:list={['section', tone]}>
+  <div class:list={['container', { narrow }]}>
+    {
+      (label || title || intro) && (
+        <header class="head">
+          {label && <p class="label">{label}</p>}
+          {title && <h2>{title}</h2>}
+          {intro && <p class="intro">{intro}</p>}
+        </header>
+      )
+    }
+    <slot />
+  </div>
+</section>
+
+<style lang="scss">
+  .section {
+    padding: $space-8 0;
+
+    @include md {
+      padding: $space-9 0;
+    }
+  }
+
+  .tint {
+    background: $gray-50;
+    border-top: $border;
+    border-bottom: $border;
+  }
+
+  .navy {
+    background: $navy;
+    color: $on-navy;
+
+    .label {
+      color: rgba($on-navy, 0.6);
+    }
+    .intro {
+      color: rgba($on-navy, 0.75);
+    }
+  }
+
+  .narrow {
+    max-width: calc($prose-width + 2 * $gutter);
+  }
+
+  .head {
+    max-width: 680px;
+    margin-bottom: $space-7;
+  }
+
+  .label {
+    margin-bottom: $space-3;
+  }
+
+  .intro {
+    font-size: 1.125rem;
+    color: $gray-600;
+    margin: 0;
+  }
+</style>

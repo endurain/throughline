@@ -1,0 +1,86 @@
+---
+import { site, nav } from '../config/site';
+---
+
+<footer class="footer">
+  <div class="container grid">
+    <div class="about">
+      <a href="/" class="brand">{site.company}</a>
+      <p>{site.tagline}</p>
+      <a class="mono email" href={`mailto:${site.email}`}>{site.email}</a>
+    </div>
+    <nav aria-label="Footer">
+      <span class="label">Site</span>
+      <ul>
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+  <div class="container legal">
+    <span class="mono">&copy; {site.year} {site.company}</span>
+  </div>
+</footer>
+
+<style lang="scss">
+  .footer {
+    background: $navy-deep;
+    color: $on-navy;
+    padding: $space-8 0 $space-5;
+    margin-top: $space-9;
+  }
+
+  .grid {
+    display: grid;
+    gap: $space-6;
+
+    @include md {
+      grid-template-columns: 2fr 1fr;
+    }
+  }
+
+  .brand {
+    font-weight: 700;
+    font-size: 1.125rem;
+    text-decoration: none;
+  }
+
+  .about p {
+    color: rgba($on-navy, 0.7);
+    margin: $space-2 0 $space-3;
+    max-width: 36ch;
+  }
+
+  .email {
+    font-size: 0.875rem;
+    color: rgba($on-navy, 0.85);
+  }
+
+  .label {
+    color: rgba($on-navy, 0.5);
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: $space-3 0 0;
+    display: grid;
+    gap: $space-2;
+  }
+
+  ul a {
+    text-decoration: none;
+    color: rgba($on-navy, 0.85);
+
+    &:hover {
+      color: $on-navy;
+    }
+  }
+
+  .legal {
+    margin-top: $space-8;
+    padding-top: $space-4;
+    border-top: 1px solid rgba($on-navy, 0.12);
+    font-size: 0.8125rem;
+    color: rgba($on-navy, 0.5);
+  }
+</style>

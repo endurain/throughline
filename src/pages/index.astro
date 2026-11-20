@@ -1,0 +1,230 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import Card from '../components/Card.astro';
+import Button from '../components/Button.astro';
+import { site, links } from '../config/site';
+
+const problems = [
+  {
+    code: 'utm_source=(overwritten)',
+    title: 'UTMs get overwritten',
+    body: 'A visitor arrives from a paid click, comes back through organic search, and converts. Last-touch tools credit the search and the paid campaign looks like it did nothing.',
+  },
+  {
+    code: 'lead_source=Web',
+    title: 'Leads get misattributed',
+    body: 'Lead source fields default to "Web" or "Direct" because the hidden fields never populated. Campaign reports in the CRM are built on that.',
+  },
+  {
+    code: 'status=200, crm=null',
+    title: 'Forms fail silently',
+    body: 'The thank-you page loads, but the submission never reaches the CRM. Nobody notices until a sales rep asks where the leads went.',
+  },
+  {
+    code: 'step_3 → ?',
+    title: 'Leaks nobody can see',
+    body: 'Traffic arrives and drops off between steps, and the tools only report on people who converted. The visitors who left are invisible.',
+  },
+];
+---
+
+<BaseLayout>
+  <Hero
+    label="Funnel clarity"
+    title="See and fix what is leaking in your funnel."
+    subtitle={`Two ways to get there: ${site.product}, attribution software that shows the full path to conversion, or a done-for-you audit that finds the leaks and tells you what to fix first.`}
+  >
+    <Button href={links.bookAudit}>Book an audit</Button>
+    <Button href="/sightline" variant="secondary">Explore {site.product}</Button>
+  </Hero>
+
+  <Section
+    label="The problem"
+    title="Most funnel reports are confidently wrong."
+    intro="Not because anyone is careless. Tracking breaks quietly, and the reports keep running on whatever data is left."
+  >
+    <div class="problems">
+      {
+        problems.map((p) => (
+          <div class="problem">
+            <code class="code">{p.code}</code>
+            <h3>{p.title}</h3>
+            <p>{p.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section tone="tint" label="Two paths" title="Software or done-for-you.">
+    <div class="paths">
+      <Card label="Software" title={site.product} href="/sightline" cta={`See how ${site.product} works`}>
+        <p>
+          Privacy-first multi-touch attribution. Captures every UTM and ad-click touch first-party, ties
+          repeat visits to a person, and shows the full path to conversion.
+        </p>
+        <ul>
+          <li>Multi-touch path view</li>
+          <li>Converters and non-converters</li>
+          <li>Works with common forms, Pardot and HubSpot</li>
+        </ul>
+      </Card>
+      <Card label="Services" title="Funnel & Attribution Audit" href="/services" cta="See what the audit covers" tone="navy">
+        <p>
+          A fixed-price review of your tracking, forms, UTMs and CRM attribution. You get a written report
+          of what is leaking, what it is likely costing, and a prioritized fix list.
+        </p>
+        <ul>
+          <li>Fixed price, starting at $1,500</li>
+          <li>Findings call included</li>
+          <li>Fee credited toward follow-on work</li>
+        </ul>
+      </Card>
+    </div>
+  </Section>
+
+  <Section label="Who is behind it">
+    <div class="proof">
+      <p class="quote">
+        Built by a marketing ops practitioner who spends most days inside GA4, tag managers, Pardot and
+        Salesforce, tracing why the numbers do not add up.
+      </p>
+      <dl class="stats mono">
+        <div><dt>Focus</dt><dd>Attribution, tracking, marketing automation</dd></div>
+        <div><dt>Stack</dt><dd>GA4, GTM, Pardot, Salesforce, HubSpot, WordPress</dd></div>
+        <div><dt>Case studies</dt><dd>Coming soon</dd></div>
+      </dl>
+      <a class="more" href="/about">Read the story &rarr;</a>
+    </div>
+  </Section>
+
+  <Section tone="navy">
+    <div class="cta">
+      <div>
+        <h2>Find out what your funnel is hiding.</h2>
+        <p>Start with an audit. If you book fixes within 30 days, the fee is credited toward the work.</p>
+      </div>
+      <div class="cta-actions">
+        <Button href={links.bookAudit}>Book an audit</Button>
+        <Button href="/sightline" variant="ghost-light">Explore {site.product}</Button>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style lang="scss">
+  .problems {
+    display: grid;
+    gap: 1px;
+    background: $gray-200;
+    border: $border;
+
+    @include md {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .problem {
+    background: $salt;
+    padding: $space-6;
+
+    h3 {
+      margin-top: $space-4;
+    }
+    p {
+      color: $gray-700;
+      margin: 0;
+    }
+  }
+
+  .code {
+    font-size: 0.8125rem;
+    color: $orange;
+    background: transparent;
+    border-color: rgba($orange, 0.3);
+  }
+
+  .paths {
+    display: grid;
+    gap: $space-5;
+
+    @include md {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .proof {
+    display: grid;
+    gap: $space-6;
+
+    @include lg {
+      grid-template-columns: 1.3fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .quote {
+    font-size: clamp(1.375rem, 2.4vw, 1.75rem);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .stats {
+    margin: 0;
+    border-top: $border;
+    font-size: 0.875rem;
+
+    div {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: $space-4;
+      padding: $space-3 0;
+      border-bottom: $border;
+    }
+    dt {
+      color: $gray-600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      padding-top: 2px;
+    }
+    dd {
+      margin: 0;
+    }
+  }
+
+  .more {
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: inset 0 -2px 0 $orange;
+    justify-self: start;
+  }
+
+  .cta {
+    display: grid;
+    gap: $space-6;
+    align-items: center;
+
+    p {
+      color: rgba($on-navy, 0.75);
+      margin: 0;
+    }
+
+    @include md {
+      grid-template-columns: 1.4fr 1fr;
+    }
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-3;
+
+    @include md {
+      justify-content: flex-end;
+    }
+  }
+</style>

@@ -1,0 +1,248 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import { site } from '../config/site';
+
+const scope = [
+  { area: 'Tracking integrity', detail: 'GA4 configuration, tags, triggers and events. Are the numbers you report being recorded the way you think?' },
+  { area: 'UTM governance', detail: 'Naming conventions, consistency across channels, and where UTMs get lost or overwritten.' },
+  { area: 'Forms', detail: 'Every key form tested end to end: does it submit, and does the data reach the CRM with the right fields?' },
+  { area: 'Attribution and CRM accuracy', detail: 'Pardot and Salesforce lead source, campaign mapping, and whether campaign reports reflect what happened.' },
+  { area: 'Funnel drop-off', detail: 'Where visitors leave between steps, and which leaks are worth fixing first.' },
+];
+
+const ladder = [
+  { step: 'Audit', detail: 'Find what is leaking and what it costs.' },
+  { step: 'Fixes', detail: 'A scoped project to close the leaks.' },
+  { step: 'Retainer', detail: 'Ongoing ownership of tracking and ops.' },
+  { step: site.product, detail: 'Attribution you can keep watching.' },
+];
+---
+
+<BaseLayout title="Services" description="Funnel & Attribution Audit: a fixed-price review of tracking, forms, UTMs and CRM attribution.">
+  <Hero
+    label="Services"
+    title="Funnel & Attribution Audit."
+    subtitle="A fixed-price review of how your funnel is tracked, end to end. You find out what is leaking, what it is likely costing, and what to fix first."
+  >
+    <Button href="#book">Book an audit</Button>
+    <Button href="#scope" variant="secondary">What it covers</Button>
+    <p slot="after" class="price mono">Fixed price &middot; from $1,500 to $2,500 depending on scope</p>
+  </Hero>
+
+  <Section label="Deliverable" title="What you get.">
+    <div class="deliverables">
+      <div>
+        <span class="label">01</span>
+        <h3>A written report</h3>
+        <p>What is leaking, where, and how we found it. Specific enough to hand to whoever does the fixing.</p>
+      </div>
+      <div>
+        <span class="label">02</span>
+        <h3>A cost estimate</h3>
+        <p>What each issue is likely costing in lost or misattributed leads, so you can prioritize with numbers.</p>
+      </div>
+      <div>
+        <span class="label">03</span>
+        <h3>A prioritized fix list</h3>
+        <p>Split into quick wins and bigger projects, with the reasoning for the order.</p>
+      </div>
+      <div>
+        <span class="label">04</span>
+        <h3>A findings call</h3>
+        <p>We walk through the report together and answer questions from your team.</p>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="scope" tone="tint" label="Scope" title="What the audit covers.">
+    <dl class="scope">
+      {
+        scope.map((s) => (
+          <div>
+            <dt>{s.area}</dt>
+            <dd>{s.detail}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </Section>
+
+  <Section label="How it fits together" title="Start with the audit. Keep going if it is useful.">
+    <ol class="ladder">
+      {
+        ladder.map((l, i) => (
+          <li>
+            <span class="mono idx">{String(i + 1).padStart(2, '0')}</span>
+            <strong>{l.step}</strong>
+            <span class="detail">{l.detail}</span>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="credit">
+      <span class="mono tag">Credit</span>
+      The audit fee is credited toward any implementation or retainer work booked within 30 days of the
+      findings call.
+    </p>
+  </Section>
+
+  <Section id="book" tone="navy" label="Book">
+    <div class="book">
+      <div>
+        <h2>Book an audit.</h2>
+        <p>
+          Send a short note about your stack and what is not adding up. We will reply with a scope and a
+          fixed price.
+        </p>
+      </div>
+      <div class="book-actions">
+        <Button href={`mailto:${site.email}?subject=${encodeURIComponent('Funnel & Attribution Audit')}`}>Email to book</Button>
+        <span class="mono email">{site.email}</span>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style lang="scss">
+  .price {
+    margin: $space-5 0 0;
+    font-size: 0.875rem;
+    color: $gray-600;
+  }
+
+  .deliverables {
+    display: grid;
+    gap: $space-6;
+
+    @include md {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @include lg {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .label {
+      color: $orange;
+    }
+    h3 {
+      margin-top: $space-2;
+    }
+    p {
+      color: $gray-700;
+      margin: 0;
+    }
+  }
+
+  .scope {
+    margin: 0;
+    border-top: 1px solid $gray-200;
+
+    div {
+      display: grid;
+      gap: $space-2;
+      padding: $space-5 0;
+      border-bottom: 1px solid $gray-200;
+
+      @include md {
+        grid-template-columns: 280px 1fr;
+        gap: $space-6;
+      }
+    }
+
+    dt {
+      font-weight: 600;
+    }
+    dd {
+      margin: 0;
+      color: $gray-700;
+    }
+  }
+
+  .ladder {
+    list-style: none;
+    margin: 0 0 $space-6;
+    padding: 0;
+    display: grid;
+    gap: 1px;
+    background: $gray-200;
+    border: $border;
+
+    @include md {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    li {
+      background: $salt;
+      padding: $space-5;
+      display: grid;
+      gap: $space-2;
+      position: relative;
+
+      &:first-child {
+        background: #fff;
+        box-shadow: inset 0 3px 0 $orange;
+      }
+    }
+
+    .idx {
+      font-size: 0.75rem;
+      color: $gray-600;
+    }
+    .detail {
+      color: $gray-700;
+      font-size: 0.9375rem;
+    }
+  }
+
+  .credit {
+    max-width: 640px;
+    color: $gray-700;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $orange;
+    border: 1px solid rgba($orange, 0.4);
+    padding: 2px 6px;
+    margin-right: $space-2;
+    vertical-align: 2px;
+  }
+
+  .book {
+    display: grid;
+    gap: $space-6;
+
+    p {
+      color: rgba($on-navy, 0.75);
+      max-width: 52ch;
+      margin: 0;
+    }
+
+    @include md {
+      grid-template-columns: 1.4fr 1fr;
+      align-items: center;
+    }
+  }
+
+  .book-actions {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+    align-items: flex-start;
+
+    @include md {
+      align-items: flex-end;
+    }
+  }
+
+  .email {
+    font-size: 0.8125rem;
+    color: rgba($on-navy, 0.6);
+  }
+</style>

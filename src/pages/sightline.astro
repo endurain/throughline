@@ -1,0 +1,266 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import { site, links } from '../config/site';
+
+const touches = [
+  { t: 'Mar 02 09:14', src: 'google', med: 'cpc', camp: 'brand-search' },
+  { t: 'Mar 05 13:40', src: 'linkedin', med: 'paid-social', camp: 'q1-webinar' },
+  { t: 'Mar 11 08:02', src: 'newsletter', med: 'email', camp: 'march-digest' },
+  { t: 'Mar 11 08:06', src: '(direct)', med: '(none)', camp: 'form: demo-request' },
+];
+
+const features = [
+  {
+    label: '01',
+    title: 'Multi-touch path view',
+    body: 'A Sankey view of how people move from first touch to conversion, so you can see which channels start journeys and which ones close them.',
+  },
+  {
+    label: '02',
+    title: 'Converters and non-converters',
+    body: 'Captures traffic and drop-off, not only the people who filled in a form. You see where journeys stall, not just where they end.',
+  },
+  {
+    label: '03',
+    title: 'Works with the forms you have',
+    body: 'Common WordPress form plugins, Pardot and HubSpot forms, including Pardot and HubSpot forms embedded in iframes.',
+  },
+  {
+    label: '04',
+    title: 'Privacy-first by design',
+    body: 'Touches are captured first-party. Repeat visits are tied together with a one-way hash of the email address. We do not store email addresses.',
+  },
+];
+---
+
+<BaseLayout title={site.product} description={`${site.product}: privacy-first multi-touch attribution for marketing teams.`}>
+  <Hero
+    label={`${site.product} by ${site.company}`}
+    title="Every touch, in order, for every lead."
+    subtitle={`${site.product} is privacy-first multi-touch attribution. It captures every UTM and ad-click touch first-party, ties repeat visits to a person, and shows the full path to conversion.`}
+  >
+    <Button href={links.requestAccess}>Request access</Button>
+    <Button href="#how" variant="secondary">How it works</Button>
+  </Hero>
+
+  <Section id="how" label="How it works" title="One person, four visits, one clear path.">
+    <div class="how">
+      <ol class="steps">
+        <li><strong>Capture.</strong> A first-party script records the UTM parameters and ad-click IDs on every visit, not just the first or last.</li>
+        <li><strong>Connect.</strong> When someone submits a form, their email is hashed in the browser and used to tie earlier anonymous visits to the same person.</li>
+        <li><strong>Show.</strong> You get the full ordered path for each lead, plus the aggregate flow across all of them.</li>
+      </ol>
+      <figure class="log" aria-label="Example touch path for one lead">
+        <figcaption class="mono">person: 9f2c…a71e &nbsp;·&nbsp; touches: 4</figcaption>
+        <table class="mono">
+          <thead>
+            <tr><th>time</th><th>source</th><th>medium</th><th>campaign</th></tr>
+          </thead>
+          <tbody>
+            {
+              touches.map((r, i) => (
+                <tr class:list={{ last: i === touches.length - 1 }}>
+                  <td>{r.t}</td>
+                  <td>{r.src}</td>
+                  <td>{r.med}</td>
+                  <td>{r.camp}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+        <p class="note mono">Last-touch credit: (direct). Actual path: 3 campaigns.</p>
+      </figure>
+    </div>
+  </Section>
+
+  <Section tone="tint" label="What you get">
+    <div class="features">
+      {
+        features.map((f) => (
+          <div class="feature">
+            <span class="label">{f.label}</span>
+            <h3>{f.title}</h3>
+            <p>{f.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section label="Privacy" title="Pseudonymous, not anonymous." narrow>
+    <div class="prose">
+      <p>
+        We want to be precise about this. {site.product} does not store email addresses. When a form is
+        submitted, the email is turned into a one-way hash, and only the hash is kept. That hash lets
+        repeat visits from the same person be grouped together.
+      </p>
+      <p>
+        That makes the data pseudonymous: it is not tied to a name or address in {site.product}, but it
+        does describe the behaviour of a specific person over time. We do not call it anonymous, because
+        it is not.
+      </p>
+    </div>
+  </Section>
+
+  <Section id="access" tone="navy" label="Status">
+    <div class="status">
+      <div>
+        <h2>Early, and available for pilots.</h2>
+        <p>
+          {site.product} runs today as a WordPress plugin. A hosted dashboard is planned. We are working with
+          a small number of teams to shape it. If your attribution reporting is a source of arguments, we
+          would like to hear from you.
+        </p>
+      </div>
+      <div class="status-actions">
+        <Button href={`mailto:${site.email}?subject=${encodeURIComponent(site.product + ' access')}`}>Request access</Button>
+        <Button href={links.bookAudit} variant="ghost-light">Or start with an audit</Button>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style lang="scss">
+  .how {
+    display: grid;
+    gap: $space-7;
+
+    @include lg {
+      grid-template-columns: 1fr 1.2fr;
+      align-items: start;
+    }
+  }
+
+  .steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+    display: grid;
+    gap: $space-5;
+
+    li {
+      counter-increment: step;
+      padding-left: $space-7;
+      position: relative;
+      color: $gray-700;
+
+      &::before {
+        content: counter(step, decimal-leading-zero);
+        position: absolute;
+        left: 0;
+        top: 2px;
+        font-family: $font-mono;
+        font-size: 0.8125rem;
+        color: $orange;
+      }
+    }
+
+    strong {
+      color: $ink;
+    }
+  }
+
+  .log {
+    margin: 0;
+    background: $navy-deep;
+    color: $on-navy;
+    border-radius: $radius;
+    padding: $space-5;
+    overflow-x: auto;
+  }
+
+  figcaption {
+    font-size: 0.75rem;
+    color: rgba($on-navy, 0.55);
+    margin-bottom: $space-4;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8125rem;
+    white-space: nowrap;
+  }
+
+  th {
+    text-align: left;
+    font-weight: 400;
+    color: rgba($on-navy, 0.5);
+    padding: 0 $space-4 $space-2 0;
+    border-bottom: 1px solid rgba($on-navy, 0.15);
+  }
+
+  td {
+    padding: $space-2 $space-4 $space-2 0;
+    border-bottom: 1px solid rgba($on-navy, 0.08);
+  }
+
+  tr.last td {
+    color: #f0a477;
+  }
+
+  .note {
+    font-size: 0.75rem;
+    color: rgba($on-navy, 0.6);
+    margin: $space-4 0 0;
+  }
+
+  .features {
+    display: grid;
+    gap: $space-6;
+
+    @include md {
+      grid-template-columns: repeat(2, 1fr);
+      gap: $space-7;
+    }
+
+    .label {
+      color: $orange;
+    }
+
+    h3 {
+      margin-top: $space-2;
+    }
+
+    p {
+      color: $gray-700;
+      margin: 0;
+    }
+  }
+
+  .prose p {
+    font-size: 1.125rem;
+    color: $gray-700;
+  }
+
+  .status {
+    display: grid;
+    gap: $space-6;
+
+    p {
+      color: rgba($on-navy, 0.75);
+      max-width: 56ch;
+      margin: 0;
+    }
+
+    @include md {
+      grid-template-columns: 1.4fr 1fr;
+      align-items: center;
+    }
+  }
+
+  .status-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-3;
+
+    @include md {
+      justify-content: flex-end;
+    }
+  }
+</style>

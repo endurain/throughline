@@ -1,0 +1,72 @@
+---
+interface Props {
+  label?: string;
+  title: string;
+  subtitle?: string;
+}
+
+const { label, title, subtitle } = Astro.props;
+---
+
+<section class="hero">
+  <div class="container">
+    {label && <p class="label">{label}</p>}
+    <h1>{title}</h1>
+    {subtitle && <p class="sub">{subtitle}</p>}
+    {
+      Astro.slots.has('default') && (
+        <div class="actions">
+          <slot />
+        </div>
+      )
+    }
+    <slot name="after" />
+  </div>
+</section>
+
+<style lang="scss">
+  .hero {
+    padding: $space-8 0 $space-8;
+    border-bottom: $border;
+    background-image:
+      linear-gradient(to right, rgba($navy, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba($navy, 0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-position: -1px -1px;
+
+    @include md {
+      padding: $space-9 0 $space-9;
+    }
+  }
+
+  .label {
+    margin-bottom: $space-4;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: $orange;
+      margin-right: $space-2;
+      vertical-align: 1px;
+    }
+  }
+
+  h1 {
+    max-width: 18ch;
+  }
+
+  .sub {
+    font-size: 1.25rem;
+    color: $gray-700;
+    max-width: 52ch;
+    margin-bottom: $space-6;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-3;
+  }
+</style>

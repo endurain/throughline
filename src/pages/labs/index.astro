@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import PostCard from '../../components/PostCard.astro';
+import { site } from '../../config/site';
+import { getPosts } from '../../lib/posts';
+
+const posts = await getPosts();
+---
+
+<BaseLayout title={site.labs} description="Attribution teardowns, marketing ops deep dives and findings from real funnels.">
+  <Hero
+    label={site.labs}
+    title="Notes from inside the funnel."
+    subtitle="Attribution teardowns, Pardot and marketing ops deep dives, and findings from real audits."
+  />
+
+  <section class="list">
+    <div class="container">
+      {posts.length === 0 && <p class="empty">No posts yet.</p>}
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  .list {
+    padding: $space-7 0 0;
+
+    .container {
+      max-width: calc(880px + 2 * $gutter);
+    }
+  }
+
+  .empty {
+    color: $gray-600;
+  }
+</style>

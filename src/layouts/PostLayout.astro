@@ -1,0 +1,179 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import { site } from '../config/site';
+import { formatDate } from '../lib/format';
+
+interface Props {
+  post: CollectionEntry<'labs'>;
+}
+
+const { post } = Astro.props;
+const { title, description, date, author, tags, heroImage, draft } = post.data;
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="post">
+    <header class="container head">
+      <a href="/labs" class="back mono">&larr; {site.labs}</a>
+      <div class="meta mono">
+        <time datetime={date.toISOString()}>{formatDate(date)}</time>
+        <span>{author}</span>
+        {draft && <span class="draft">Draft</span>}
+      </div>
+      <h1>{title}</h1>
+      <p class="desc">{description}</p>
+      {
+        tags.length > 0 && (
+          <ul class="tags mono">
+            {tags.map((t) => <li>{t}</li>)}
+          </ul>
+        )
+      }
+    </header>
+
+    {heroImage && <img class="hero-img" src={heroImage} alt="" />}
+
+    <div class="container prose">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<style lang="scss">
+  .head,
+  .prose {
+    max-width: calc($prose-width + 2 * $gutter);
+  }
+
+  .head {
+    padding-top: $space-8;
+    padding-bottom: $space-6;
+  }
+
+  .back {
+    font-size: 0.8125rem;
+    color: $gray-600;
+    text-decoration: none;
+
+    &:hover {
+      color: $ink;
+    }
+  }
+
+  .meta {
+    display: flex;
+    gap: $space-4;
+    margin: $space-6 0 $space-4;
+    font-size: 0.8125rem;
+    color: $gray-600;
+  }
+
+  .draft {
+    color: $orange;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 4.4vw, 3rem);
+  }
+
+  .desc {
+    font-size: 1.25rem;
+    color: $gray-700;
+  }
+
+  .tags {
+    list-style: none;
+    padding: 0;
+    margin: $space-5 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-2;
+
+    li {
+      font-size: 0.75rem;
+      border: $border;
+      padding: 2px 8px;
+      color: $gray-700;
+    }
+  }
+
+  .hero-img {
+    width: 100%;
+    max-width: 1040px;
+    margin: 0 auto $space-7;
+    border: $border;
+  }
+
+  .prose {
+    border-top: $border;
+    padding-top: $space-6;
+    font-size: 1.125rem;
+    line-height: 1.75;
+
+    :global(h2) {
+      font-size: 1.625rem;
+      margin-top: $space-7;
+    }
+    :global(h3) {
+      margin-top: $space-6;
+    }
+    :global(a) {
+      text-decoration-color: $orange;
+      text-underline-offset: 3px;
+    }
+    :global(ul),
+    :global(ol) {
+      padding-left: 1.25em;
+      margin: 0 0 $space-4;
+    }
+    :global(li) {
+      margin-bottom: $space-2;
+    }
+    :global(blockquote) {
+      margin: $space-5 0;
+      padding-left: $space-5;
+      border-left: 2px solid $orange;
+      color: $gray-700;
+    }
+    :global(pre) {
+      background: $navy-deep !important;
+      color: $on-navy;
+      padding: $space-5;
+      border-radius: $radius;
+      overflow-x: auto;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      margin: $space-5 0;
+    }
+    :global(pre code) {
+      background: none;
+      border: 0;
+      padding: 0;
+    }
+    :global(img) {
+      margin: $space-6 0;
+      border: $border;
+    }
+    :global(table) {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9375rem;
+      margin: $space-5 0;
+    }
+    :global(th),
+    :global(td) {
+      text-align: left;
+      padding: $space-2 $space-3;
+      border-bottom: $border;
+    }
+    :global(th) {
+      font-family: $font-mono;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: $gray-600;
+      font-weight: 400;
+    }
+  }
+</style>
